@@ -10,6 +10,7 @@ function pickByFraction(array, fraction) {
 function MetadataDistributionAttribute({ barColors, distribution }) {
   const distributionFractionFormatter = new Intl.NumberFormat("en", {
     style: "percent",
+    maximumFractionDigits: 1,
   });
 
   const distributionsAggregated =
