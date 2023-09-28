@@ -1,3 +1,7 @@
 export default function Card({ children }) {
-  return <div className="border border-sky-500 p-4 rounded-md">{children}</div>;
+  return (
+    <div className="bg-white border border-gray-200 rounded-sm divide-y divide-solid">
+      {children}
+    </div>
+  );
 }

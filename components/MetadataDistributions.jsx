@@ -36,7 +36,7 @@ function MetadataDistributionAttribute({ barColors, distribution }) {
   }));
 
   return (
-    <div>
+    <div class="space-y-2">
       <h3>
         {distribution.name} ({distribution.unique})
       </h3>
@@ -99,17 +99,24 @@ export default function MetadataDistributions({ distributions }) {
   ];
 
   return (
-    <Card>
-      <h2>Metadata distributions</h2>
-      {distributions.map((d, i) => (
-        <MetadataDistributionAttribute
-          barColors={barColors[i % barColors.length]}
-          distribution={d}
-          key={d.name}
-          tooltipTarget={tooltipTarget}
-        />
-      ))}
+    <>
+      <Card>
+        <div class="p-3">
+          <h2>Metadata distributions</h2>
+        </div>
+
+        {distributions.map((d, i) => (
+          <div class="p-3">
+            <MetadataDistributionAttribute
+              barColors={barColors[i % barColors.length]}
+              distribution={d}
+              key={d.name}
+              tooltipTarget={tooltipTarget}
+            />
+          </div>
+        ))}
+      </Card>
       <Tooltip target={tooltipSource} />
-    </Card>
+    </>
   );
 }
