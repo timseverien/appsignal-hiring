@@ -58,7 +58,7 @@ function MetadataDistributionBar({ colors, data, tooltipTarget }) {
           <Tooltip content={segment.tooltipContent} target={tooltipTarget}>
             <Link
               href={`#${segment.key}`}
-              className={`block overflow-hidden h-2 ${color}`}
+              className={`block overflow-hidden h-2 ${color} hover:bg-black focus:bg-black`}
               style={{ flexGrow: segment.segmentFraction }}
             >
               <span class="sr-only">{segment.key}</span>
