@@ -12,7 +12,20 @@ function MetadataDistributionAttribute({ barColors, distribution }) {
     style: "percent",
   });
 
-  const barData = distribution.distributions.map((d) => ({
+  const distributionsAggregated =
+    distribution.distributions.length > 10
+      ? // Note that instead of getting the first *10* items and group the remaining ones in the "other" distribution, we’re getting the first 9! This prevents us from ending up with 11 segments in our bar.
+        distribution.distributions.slice(0, 9).concat([
+          {
+            key: "other",
+            value: distribution.distributions
+              .slice(9)
+              .reduce((sum, d) => sum + d.value, 0),
+          },
+        ])
+      : distribution.distributions;
+
+  const barData = distributionsAggregated.map((d) => ({
     key: d.key,
     segmentFraction: d.value,
     tooltipContent: `${d.key} ${distributionFractionFormatter.format(
