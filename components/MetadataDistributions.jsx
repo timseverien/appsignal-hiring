@@ -1,5 +1,6 @@
 import Card from "@/components/Card";
 import Tooltip from "@/components/Tooltip";
+import { useSingleton } from "@tippyjs/react";
 
 function pickByFraction(array, fraction) {
   const index = Math.round(fraction * (array.length - 1));
@@ -7,9 +8,16 @@ function pickByFraction(array, fraction) {
 }
 
 function MetadataDistributionAttribute({ barColors, distribution }) {
+  const distributionFractionFormatter = new Intl.NumberFormat("en", {
+    style: "percent",
+  });
+
   const barData = distribution.distributions.map((d) => ({
     key: d.key,
     segmentFraction: d.value,
+    tooltipContent: `${d.key} ${distributionFractionFormatter.format(
+      d.value / distribution.total
+    )}`,
   }));
 
   return (
@@ -22,7 +30,7 @@ function MetadataDistributionAttribute({ barColors, distribution }) {
   );
 }
 
-function MetadataDistributionBar({ colors, data }) {
+function MetadataDistributionBar({ colors, data, tooltipTarget }) {
   return (
     <div className="flex basis-0 gap-px rounded-md overflow-hidden">
       {data.map((segment, segmentIndex) => {
@@ -32,12 +40,14 @@ function MetadataDistributionBar({ colors, data }) {
         );
 
         return (
-          <button
-            className={`overflow-hidden h-2 ${color}`}
-            style={{ flexGrow: segment.segmentFraction }}
-          >
-            <span class="sr-only">{segment.name}</span>
-          </button>
+          <Tooltip content={segment.tooltipContent} target={tooltipTarget}>
+            <button
+              className={`overflow-hidden h-2 ${color}`}
+              style={{ flexGrow: segment.segmentFraction }}
+            >
+              <span class="sr-only">{segment.name}</span>
+            </button>
+          </Tooltip>
         );
       })}
     </div>
@@ -45,6 +55,8 @@ function MetadataDistributionBar({ colors, data }) {
 }
 
 export default function MetadataDistributions({ distributions }) {
+  const [tooltipSource, tooltipTarget] = useSingleton();
+
   const barColors = [
     [
       "bg-green-100",
@@ -72,18 +84,16 @@ export default function MetadataDistributions({ distributions }) {
 
   return (
     <Card>
-      <Tooltip content="I'm a tooltip">
-        <>
-          <h2>Metadata distributions</h2>
-          {distributions.map((d, i) => (
-            <MetadataDistributionAttribute
-              barColors={barColors[i % barColors.length]}
-              distribution={d}
-              key={d.name}
-            />
-          ))}
-        </>
-      </Tooltip>
+      <h2>Metadata distributions</h2>
+      {distributions.map((d, i) => (
+        <MetadataDistributionAttribute
+          barColors={barColors[i % barColors.length]}
+          distribution={d}
+          key={d.name}
+          tooltipTarget={tooltipTarget}
+        />
+      ))}
+      <Tooltip target={tooltipSource} />
     </Card>
   );
 }
