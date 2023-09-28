@@ -1,6 +1,7 @@
 import Card from "@/components/Card";
 import Tooltip from "@/components/Tooltip";
 import { useSingleton } from "@tippyjs/react";
+import Link from "next/link";
 
 function pickByFraction(array, fraction) {
   const index = Math.round(fraction * (array.length - 1));
@@ -55,12 +56,13 @@ function MetadataDistributionBar({ colors, data, tooltipTarget }) {
 
         return (
           <Tooltip content={segment.tooltipContent} target={tooltipTarget}>
-            <button
-              className={`overflow-hidden h-2 ${color}`}
+            <Link
+              href={`#${segment.name}`}
+              className={`block overflow-hidden h-2 ${color}`}
               style={{ flexGrow: segment.segmentFraction }}
             >
               <span class="sr-only">{segment.name}</span>
-            </button>
+            </Link>
           </Tooltip>
         );
       })}
