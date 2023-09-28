@@ -17,4 +17,10 @@ describe("MetadataDistributions", () => {
 
     expect(screen.getByText("Metadata distributions")).toBeInTheDocument();
   });
+
+  it("renders a metadata distribution category", () => {
+    build();
+
+    expect(screen.getByText("hostname (10)")).toBeInTheDocument();
+  });
 });
