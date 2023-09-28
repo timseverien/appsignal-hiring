@@ -4,9 +4,10 @@ import dataFromGraphql from "@/data/graphql";
 
 describe("MetadataDistributions", () => {
   const build = (props) => {
+    const { app: distributions } = dataFromGraphql;
     return render(
       <MetadataDistributions
-        distributions={dataFromGraphql.app.metadaDistributions}
+        distributions={distributions.metadataDistributions}
         {...props}
       />
     );
