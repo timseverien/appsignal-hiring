@@ -71,6 +71,7 @@ function MetadataDistributionBar({ colors, data, tooltipTarget }) {
 }
 
 export default function MetadataDistributions({ distributions }) {
+  // Using a Tippy singleton so I can define the content in MetadataDistributionBar
   const [tooltipSource, tooltipTarget] = useSingleton();
 
   const barColors = [
@@ -110,7 +111,7 @@ export default function MetadataDistributions({ distributions }) {
             <MetadataDistributionAttribute
               barColors={barColors[i % barColors.length]}
               distribution={d}
-              key={d.name}
+              key={d.name} // I’d rather use an ID or key
               tooltipTarget={tooltipTarget}
             />
           </div>
